@@ -1,5 +1,9 @@
 Introduction
 ============
+I forked [Zarcen's](https://github.com/zarcen/dotvim) vim configuration repository, which is well organized and fantastic. I modified some configuration to fit my needs.
+
+following comes from Zarzen words.
+---
 
 This is my vim configuration files, the .vim directory.
 

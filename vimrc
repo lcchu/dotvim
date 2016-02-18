@@ -81,6 +81,7 @@ set autoread		" auto read when file is changed from outside
 set linespace=2         " a taller line
 set nowrap              " never auto change to next line
 set paste               " can use <Cmd>+v to paste in vim
+set number
 
 "Restore cursor to file position in previous editing session
 set viminfo='10,\"100,:20,%,n~/.viminfo
@@ -92,7 +93,7 @@ filetype indent on      " Enable filetype-specific indenting
 filetype plugin on      " Enable filetype-specific plugins
 
 set t_Co=256            " 256 color mode
-"set background=dark    " another is 'light', change this will affect colorscheme
+set background=dark    " another is 'light', change this will affect colorscheme
 colorscheme railscasts  " colorschem setting: solarized_dark, railscasts, distinguished
 highlight CursorLine guibg=#003853 ctermbg=24  gui=none cterm=none
 set cursorline          " highlight current line
@@ -136,9 +137,9 @@ set t_vb=
 set tm=500
 
 " TAB setting{
-set tabstop=4
-set softtabstop=4	" the default tab space size=4
-set shiftwidth=4	" the default autoindenting space size=4
+set tabstop=2
+set softtabstop=2	" the default tab space size=2
+set shiftwidth=2	" the default autoindenting space size=2
 set expandtab	    " replace <TAB> with spaces
 set smarttab		" insert tabs on the start of a line according to context
 
@@ -365,4 +366,22 @@ function! PyHeader()
   endif
 endfunction
 au BufRead,BufNewFile *.py call PyHeader()
+
+
+"-------------------------------
+" Execute file based on filetype
+"-------------------------------
+function! ExecuteFile()
+  let filetype_to_command = {
+  \   'cpp': '!make',
+  \   'python': '!python',
+  \ }
+  let cmd = get(filetype_to_command, &filetype, &filetype)
+  if &filetype == "cpp"
+    execute cmd
+  elseif &filetype == "python"
+    execute cmd shellescape(@%, 1)
+  endif
+endfunction
+nnoremap <buffer> <F9> :call ExecuteFile()<cr>
 
